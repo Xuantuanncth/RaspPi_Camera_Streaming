@@ -1,29 +1,57 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Page</title>
-    <link rel="stylesheet" href="/stylesheets/homepage.css" />
-</head>
-<body>
-    <div class="main">
-        <div class="main_video">
-            <video src="" style="video"></video>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="w-[1280px] h-[720px] bg-green-300 flex">
+      <div
+        class="w-[859px] h-[600px] relative bg-zinc-100 rounded-xl mt-[50px] ml-[50px]"
+      >
+        <video
+          src=""
+          style="video"
+          class="w-[813px] h-[553px] bg-white rounded-xl mt-[22px] ml-[23px]"
+        ></video>
+      </div>
+      <div
+        class="w-[280px] h-[600px] relative bg-zinc-100 rounded-xl mt-[50px] ml-[20px] p-[16px]"
+      >
+        <div class="mt-[11px] pl-[10px]">
+          <button
+            class="w-[108px] h-[30px] bg-sky-300 rounded-xl border border-black border-opacity-50"
+          > Stream</button>
+          <button
+            class="w-[113px] h-[30px] bg-neutral-50 rounded-xl border border-black border-opacity-50"
+          >Recoding</button>
         </div>
-        <div class="option">
-            <div >
-                <button class="button">Stream</button>
-                <button class="button" style="margin-left: 20px;">Record</button>
-            </div>
-            <div class="list">
-                <li>30_10_2023_10_30.mp4</li>
-                <li>30_10_2023_10_30.mp4</li>
-                <li>30_10_2023_10_30.mp4</li>
-                <li>30_10_2023_10_30.mp4</li>
-                <li>30_10_2023_10_30.mp4</li>
-            </div>
+        <div
+          class="mt-[20px] w-[247px] h-[488px] bg-white rounded-xl pl-[20px] pt-[12px]"
+        >
+          <a
+            href="localhost:3000/video/30_10_2023_10_30.mp4"
+            class="text-blue-500 hover:text-red-500"
+          >30_10_2023_10_30.mp4</a>
+          <a
+            href="localhost:3000/video/30_10_2023_10_30.mp4"
+            class="text-blue-500 hover:text-red-500"
+          >30_10_2023_10_30.mp4</a>
+          <a
+            href="localhost:3000/video/30_10_2023_10_30.mp4"
+            class="text-blue-500 hover:text-red-500"
+          >30_10_2023_10_30.mp4</a>
+          <a
+            href="localhost:3000/video/30_10_2023_10_30.mp4"
+            class="text-blue-500 hover:text-red-500"
+          >30_10_2023_10_30.mp4</a>
+          <a
+            href="localhost:3000/video/30_10_2023_10_30.mp4"
+            class="text-blue-500 hover:text-red-500"
+          >30_10_2023_10_30.mp4</a>
         </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
