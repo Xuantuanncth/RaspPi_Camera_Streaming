@@ -1,57 +1,58 @@
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body>
-    <div class="w-[1280px] h-[720px] bg-green-300 flex">
-      <div
-        class="w-[859px] h-[600px] relative bg-zinc-100 rounded-xl mt-[50px] ml-[50px]"
-      >
-        <video
-          src=""
-          style="video"
-          class="w-[813px] h-[553px] bg-white rounded-xl mt-[22px] ml-[23px]"
-        ></video>
-      </div>
-      <div
-        class="w-[280px] h-[600px] relative bg-zinc-100 rounded-xl mt-[50px] ml-[20px] p-[16px]"
-      >
-        <div class="mt-[11px] pl-[10px]">
-          <button
-            class="w-[108px] h-[30px] bg-sky-300 rounded-xl border border-black border-opacity-50"
-          > Stream</button>
-          <button
-            class="w-[113px] h-[30px] bg-neutral-50 rounded-xl border border-black border-opacity-50"
-          >Recoding</button>
+    <script src="/javascripts/control_pages.js"></script>
+</head>
+
+<body>
+    <div class="container mx-auto w-[1280px] h-[720px] flex">
+        <div class="w-[859px] h-[600px] relative bg-zinc-100 rounded-xl mt-[50px] ml-[50px]">
+            <video id="video-display" src="" style="video"
+                class="w-[813px] h-[500px] bg-white rounded-xl mt-[22px] ml-[23px]" controls muted="muted"
+                autoplay></video>
+            <h3 id="video_label" class="pt-[30px] text-center text-sm text-fuchsia-500"></h3>
         </div>
-        <div
-          class="mt-[20px] w-[247px] h-[488px] bg-white rounded-xl pl-[20px] pt-[12px]"
-        >
-          <a
-            href="localhost:3000/video/30_10_2023_10_30.mp4"
-            class="text-blue-500 hover:text-red-500"
-          >30_10_2023_10_30.mp4</a>
-          <a
-            href="localhost:3000/video/30_10_2023_10_30.mp4"
-            class="text-blue-500 hover:text-red-500"
-          >30_10_2023_10_30.mp4</a>
-          <a
-            href="localhost:3000/video/30_10_2023_10_30.mp4"
-            class="text-blue-500 hover:text-red-500"
-          >30_10_2023_10_30.mp4</a>
-          <a
-            href="localhost:3000/video/30_10_2023_10_30.mp4"
-            class="text-blue-500 hover:text-red-500"
-          >30_10_2023_10_30.mp4</a>
-          <a
-            href="localhost:3000/video/30_10_2023_10_30.mp4"
-            class="text-blue-500 hover:text-red-500"
-          >30_10_2023_10_30.mp4</a>
+        <div class="w-[280px] h-[600px] relative bg-zinc-100 rounded-xl mt-[50px] ml-[20px] p-[16px]">
+            <div class="mt-[11px] pl-[10px]">
+                <button id="steams-button"
+                    class="w-[108px] h-[30px] bg-sky-300 rounded-xl border border-black border-opacity-50 transition duration-300 hover:bg-blue-500"
+                    onclick="stream_mode()"> Stream</button>
+                <button id="record-button"
+                    class="w-[113px] h-[30px] bg-neutral-50 rounded-xl border border-black border-opacity-50 transition duration-300 hover:bg-blue-500"
+                    onclick="record_mode()">Recording
+                </button>
+                <div>
+                    <div class="pt-[20px]">
+                        <div class="flex ml-[10px] text-center pb-[5px]">
+                            <p class="pl-[5px]">Start time</p>
+                            <p class="pl-[60px]">Stop time</p>
+                        </div>
+                        <div>
+                            <input class="ml-[10px]" type="time" id="start_time">
+                            <input class="ml-[10px]" type="time" id="stop_time">
+                        </div>
+                    </div>
+                    <div class="pt-[20px] ml-[60px]"    >
+                        <button id="bt-setting-time" onclick="sendConfigTime()" class="w-[110px] h-[30px] bg-neutral-50 rounded-lg border border-black border-opacity-50">Send setting</button>   
+                    </div>
+                </div>
+            </div>
+            <div id="list-video" class="mt-[20px] w-[247px] h-[400px] bg-white rounded-xl pl-[20px] pt-[12px] overflow-auto">
+                {{! <a href="/video/30_10_2023_10_30.mp4"
+                    class="text-blue-500 hover:text-red-500">30_10_2023_10_30.mp4</a>
+                <a href="/video/30_10_2023_10_30.mp4" class="text-blue-500 hover:text-red-500">30_10_2023_10_30.mp4</a>
+                <a href="/video/30_10_2023_10_30.mp4" class="text-blue-500 hover:text-red-500">30_10_2023_10_30.mp4</a>
+                <a href="/video/30_10_2023_10_30.mp4" class="text-blue-500 hover:text-red-500">30_10_2023_10_30.mp4</a>
+                <a href="/video/30_10_2023_10_30.mp4" class="text-blue-500 hover:text-red-500">30_10_2023_10_30.mp4</a>
+                }}
+            </div>
         </div>
-      </div>
     </div>
-  </body>
+
+</body>
+
 </html>
