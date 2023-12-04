@@ -1,4 +1,5 @@
 const linkVideo = "http://localhost:3000/video/"
+const linkStream = "http://localhost:8000"
 
 window.onload = function loadData() {
     console.log("[loadData]");
@@ -48,10 +49,13 @@ function record_mode() {
 
 function stream_mode() {
     console.log('record_mode');
+    let playVideo = document.getElementById("video-display");
     const stream_button = document.getElementById('steams-button');
     const recording_button = document.getElementById('record-button');
     recording_button.style.backgroundColor="#FCFCFC";
-    stream_button.style.backgroundColor="#6CD2E9"
+    stream_button.style.backgroundColor="#6CD2E9";
+    playVideo.src =  linkStream;
+    videoLabel.innerHTML="Streaming";
 }
 
 function sendConfigTime(){

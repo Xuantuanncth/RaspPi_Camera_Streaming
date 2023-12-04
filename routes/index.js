@@ -3,7 +3,7 @@ var router = express.Router();
 const fs = require('fs');
 const { runInContext } = require('vm');
 
-const folderPath = 'D:/Working/NodeJS/VideoTest';
+const folderPath = '/home/pi/camera_detect/video_record';
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index',{title: 'Home'});
