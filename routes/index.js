@@ -2,15 +2,22 @@ var express = require('express');
 var router = express.Router();
 const fs = require('fs');
 const { runInContext } = require('vm');
-
-const folderPath = '/home/pi/camera_detect/video_record';
+const socket_api = require('../socket_api');
+const folderPath = 'D:/Working/NodeJS/VideoTest';
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index',{title: 'Home'});
 });
 
-router.get('/homepage', function(req, res, next) {
-    res.render('streaming',{title: 'Home'});
+router.get('/streaming', function(req, res, next) {
+    res.render('streaming',{title: 'Streaming'});
+})
+
+router.get('/recording', function(req, res, next) {
+    res.render('recording',{title: 'Recording'});
+})
+router.get('/setting', function(req, res, next) {
+    res.render('setting',{title: 'Setting'});
 })
 
 router.post('/login', function(req, res) {
@@ -21,7 +28,7 @@ router.post('/login', function(req, res) {
     }
 
     if(username == "admin" && password == "123"){
-        res.redirect('/homepage');
+        res.redirect('/streaming');
     } else {
         return res.status(400).json({error:"Invalid username or password"});
     }
@@ -77,11 +84,31 @@ router.get('/listVideo', function(req, res) {
     }
 )
 
+router.get('/takePicture', function(req, res) {
+    console.log("Take picture");
+    socket_api.takePicture();
+    res.status(200).json({success:true});
+});
+
+router.get('/trainModel', function(req, res) {
+    console.log("Train model");
+    socket_api.trainModel();
+    res.status(200).json({success:true});
+});
 router.get('/settingTimes/startTime=:startTime&stopTime=:stopTime', function(req, res) {
     const startTime = req.params.startTime;
     const stopTime = req.params.stopTime;
     console.log('StartTime: ',startTime,": stopTime: ",stopTime);
-    res.send("okay");
+    socket_api.sendSettingTime(startTime,stopTime);
+    res.status(200).json({success:true});
+});
+
+router.get('/settingOwner/name=:name&email=:email', function(req, res) {
+    const name = req.params.name;
+    const email = req.params.email;
+    console.log('name: ',name,": email: ",email);
+    socket_api.sendSettingOwner(name,email);
+    res.status(200).json({success:true});
 });
 
 
