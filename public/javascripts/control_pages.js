@@ -54,8 +54,7 @@ function stream_mode() {
     const recording_button = document.getElementById('record-button');
     recording_button.style.backgroundColor="#FCFCFC";
     stream_button.style.backgroundColor="#6CD2E9";
-    playVideo.src =  linkStream;
-    videoLabel.innerHTML="Streaming";
+
 }
 
 function sendConfigTime(){

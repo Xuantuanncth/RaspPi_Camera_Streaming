@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/homepage', function(req, res, next) {
-    res.render('homepage',{title: 'Home'});
+    res.render('streaming',{title: 'Home'});
 })
 
 router.post('/login', function(req, res) {
