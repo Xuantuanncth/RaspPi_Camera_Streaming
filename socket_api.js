@@ -8,14 +8,6 @@ io.on( "connection", function( socket ) {
     console.log( "A user connected" );
 });
 
-socket_api.SendNotification = function(){
-    io.emit('hello',{msg: "hello"});
-}
-
-socket_api.sendData = function(){
-    io.emit('data',{msg: "this is data"});
-}
-
 socket_api.sendSettingTime = function(start,stop){
     console.log("Setting time: " + start+   " " +   stop);
     io.emit('setting_time',{start_time:start,stop_time:stop});
@@ -34,6 +26,11 @@ socket_api.takePicture = function(){
 socket_api.trainModel = function(){
     console.log("trainModel");
     io.emit('train_model',{isModel:true});
+}
+
+socket_api.streamMode = function(status){
+    console.log("stream_mode");
+    io.emit('stream_mode',{isOn:status});
 }
 // end of socket.io logic
 

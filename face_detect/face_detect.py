@@ -33,6 +33,8 @@ fps = FPS().start()
 
 # Is streaming now 
 noStreaming = False 
+isTakePicture = False
+isTrainModel = False
 
 #================================================================# 
 #                   Initialize the SocketIO 
@@ -48,13 +50,31 @@ def on_connect():
 def on_disconnect():
     print('Disconnected from server')
 
-@sio.on('chat')
+@sio.on('setting_time')
 def on_chat_message(data):
-    print('Received message:', data)
+    print('Received setting_time:', data)
 
-@sio.on('setting')
+@sio.on('setting_owner')
 def on_setting_message(data):
-    print('Received setting:', data)
+    print('Received setting_owner:', data)
+
+@sio.on('take_picture')
+def on_setting_message(data):
+    print('Received take_picture:', data)
+    isTakePicture = True
+
+@sio.on('train_model')
+def on_setting_message(data):
+    print('Received train_model:', data)
+    isTrainModel = True
+
+@sio.on('stream_mode')
+def on_setting_message(data):
+    print('Received stream_mode:', data)
+    if (data ==="ON"):
+        noStreaming = True
+    else:
+        noStreaming = False
 
 #================================================================# 
 #                   Face detection
@@ -72,42 +92,45 @@ def face_detect(frame):
 		# encodings
 		matches = face_recognition.compare_faces(data["encodings"],encoding)
 		name = "Unknown" #if face is not recognized, then print Unknown
+        if True in matches:
+            print("Có nguoi quen")
+        else:
+            takePicture(frame)
+		# # check to see if we have found a match
+		# if True in matches:
+		# 	# find the indexes of all matched faces then initialize a
+		# 	# dictionary to count the total number of times each face
+		# 	# was matched
+		# 	matched_Index = [i for (i, b) in enumerate(matches) if b]
+		# 	counts = {}
 
-		# check to see if we have found a match
-		if True in matches:
-			# find the indexes of all matched faces then initialize a
-			# dictionary to count the total number of times each face
-			# was matched
-			matched_Index = [i for (i, b) in enumerate(matches) if b]
-			counts = {}
+		# 	# loop over the matched indexes and maintain a count for
+		# 	# each recognized face face
+		# 	for i in matched_Index:
+		# 		name = data["names"][i]
+		# 		counts[name] = counts.get(name, 0) + 1
 
-			# loop over the matched indexes and maintain a count for
-			# each recognized face face
-			for i in matched_Index:
-				name = data["names"][i]
-				counts[name] = counts.get(name, 0) + 1
+		# 	# determine the recognized face with the largest number
+		# 	# of votes (note: in the event of an unlikely tie Python
+		# 	# will select first entry in the dictionary)
+		# 	name = max(counts, key=counts.get)
 
-			# determine the recognized face with the largest number
-			# of votes (note: in the event of an unlikely tie Python
-			# will select first entry in the dictionary)
-			name = max(counts, key=counts.get)
+		# 	#If someone in your dataset is identified, print their name on the screen
+		# 	if current_name != name:
+		# 		current_name = name
+		# 		print(current_name)
 
-			#If someone in your dataset is identified, print their name on the screen
-			if current_name != name:
-				current_name = name
-				print(current_name)
-
-		# update the list of names
-		names.append(name)
+		# # update the list of names
+		# names.append(name)
 
 	# loop over the recognized faces
-	for ((top, right, bottom, left), name) in zip(boxes, names):
-		# draw the predicted face name on the image - color is in BGR
-		cv2.rectangle(frame, (left, top), (right, bottom),
-			(0, 255, 225), 2)
-		y = top - 15 if top - 15 > 15 else top + 15
-		cv2.putText(frame, name, (left, y), cv2.FONT_HERSHEY_SIMPLEX,
-			.8, (0, 255, 255), 2)  
+	# for ((top, right, bottom, left), name) in zip(boxes, names):
+	# 	# draw the predicted face name on the image - color is in BGR
+	# 	cv2.rectangle(frame, (left, top), (right, bottom),
+	# 		(0, 255, 225), 2)
+	# 	y = top - 15 if top - 15 > 15 else top + 15
+	# 	cv2.putText(frame, name, (left, y), cv2.FONT_HERSHEY_SIMPLEX,
+	# 		.8, (0, 255, 255), 2)  
 
 #================================================================# 
 #                   Send email
@@ -153,10 +176,13 @@ def sendMail():
     server.quit()
     
     print('Email sent')
-    
+
+#================================================================# 
+#                  Main program
+#================================================================#     
 def startFaceDetection(): 
     # loop over frames from the video file stream 
-    while True: 
+    while (isTrainModel == False): 
         # grab the frame from the threaded video stream and resize it 
         # to 500px (to speedup processing) 
         frame = vs.read() 
@@ -165,6 +191,9 @@ def startFaceDetection():
             frame = face_detect(frame) 
             # display the image to our screen 
         cv2.imshow("Facial Recognition is Running", frame) 
+        if (isTakePicture):
+            takePicture(frame)
+            isTakePicture = False
         key = cv2.waitKey(1) & 0xFF 
         # quit when 'q' key is pressed 
         if key == ord("q"): 
@@ -175,14 +204,15 @@ def startFaceDetection():
         fps.stop() 
         # print("[INFO] elasped time: {:.2f}".format(fps.elapsed())) 
         print("[INFO] approx. FPS: {:.2f}".format(fps.fps())) 
-
+    if (isTrainModel):
+        trainModel()
+        isTrainModel = False
 #================================================================# 
 #                   Take pictures and train models
 #================================================================# 
-def takePicture(frame):
-    cv2.imwrite(img_name, frame)
-    print("{} written!".format(img_name))cv2.imwrite(img_name, frame)
-    print("{} written!".format(img_name))
+def takePicture(frame,image_name):
+    cv2.imwrite(image_name, frame)
+    print("{} written!".format(image_name))
 
 def trainModel():
     # our images are located in the dataset folder

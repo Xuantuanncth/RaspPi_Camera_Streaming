@@ -10,10 +10,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/streaming', function(req, res, next) {
+    socket_api.streamMode("ON");
     res.render('streaming',{title: 'Streaming'});
 })
 
 router.get('/recording', function(req, res, next) {
+    socket_api.streamMode("OFF");
     res.render('recording',{title: 'Recording'});
 })
 router.get('/setting', function(req, res, next) {
