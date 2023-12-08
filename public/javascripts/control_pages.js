@@ -1,4 +1,4 @@
-const linkVideo = "http://localhost:3000/video/"
+const linkVideo = "/video/"
 const linkStream = "http://localhost:8000"
 
 window.onload = function loadData() {

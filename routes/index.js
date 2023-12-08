@@ -3,7 +3,8 @@ var router = express.Router();
 const fs = require('fs');
 const { runInContext } = require('vm');
 const socket_api = require('../socket_api');
-const folderPath = 'D:/Working/NodeJS/VideoTest';
+const videoFolder = '/home/pi/camera_detect/camera_streaming/video_record';
+const datasetPath = '/home/pi/camera_detect/camera_streaming/dataset';
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index',{title: 'Home'});
@@ -40,7 +41,7 @@ router.get('/video/:name', function(req, res) {
     const videoDefault = "WIN_20231118_16_15_59_Pro.mp4";
     const videoName = req.params.name;
     console.log("Video: ",videoName);
-    const videoPath = folderPath+"/"+videoName;
+    const videoPath = videoFolder+"/"+videoName;
     // if(videoName){
     //     videoPath = folderPath+"/"+videoName;
     // } else {
@@ -69,19 +70,19 @@ router.get('/video/:name', function(req, res) {
 
 router.get('/listVideo', function(req, res) {
     console.log("Show list video");
-        fs.readdir(folderPath, (err, files) => {
-                if (err) {
-                    console.error('Error reading folder:', err);
-                    return res.status(400).json({error:err});;
-                }
-            
-                console.log('Files in the folder:');
-                files.forEach(file => {
-                    console.log(file);
-                });
-                return res.status(200).send(files);
+    fs.readdir(videoFolder, (err, files) => {
+            if (err) {
+                console.error('Error reading folder:', err);
+                return res.status(400).json({error:err});;
             }
-        )
+        
+            console.log('Files in the folder:');
+            files.forEach(file => {
+                console.log(file);
+            });
+            return res.status(200).send(files);
+        }
+    )
         
     }
 )
@@ -109,6 +110,14 @@ router.get('/settingOwner/name=:name&email=:email', function(req, res) {
     const name = req.params.name;
     const email = req.params.email;
     console.log('name: ',name,": email: ",email);
+    var newMemberPath = datasetPath+"/"+name;
+    fs.mkdir(newMemberPath, { recursive: true }, (err) => {
+        if (err) {
+            console.error(`Error creating folder: ${err.message}`);
+        } else {
+            console.log(`Folder "${newMemberPath}" created successfully.`);
+        }
+    });
     socket_api.sendSettingOwner(name,email);
     res.status(200).json({success:true});
 });

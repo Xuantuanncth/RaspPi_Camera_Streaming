@@ -30,7 +30,7 @@ socket_api.trainModel = function(){
 
 socket_api.streamMode = function(status){
     console.log("stream_mode");
-    io.emit('stream_mode',{isOn:status});
+    io.emit('stream_mode',status);
 }
 // end of socket.io logic
 
